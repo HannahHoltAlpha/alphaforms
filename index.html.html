@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Art of the Possible · Platform Demo Feedback</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #002554;
+    --navy-mid: #003580;
+    --teal: #00ACA0;
+    --teal-light: #e6f7f6;
+    --light-grey: #f5f5f5;
+    --mid-grey: #c0c0c0;
+    --text-dark: #1a1a1a;
+    --text-mid: #4a4a4a;
+    --text-light: #888888;
+    --border: #e0e0e0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    background: #001a3d;
+    color: var(--text-dark);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: var(--navy);
+    padding: 3rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 340px; height: 100%;
+    background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.04) 100%);
+    pointer-events: none;
+  }
+
+  .header-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .alpha-badge {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 4px 12px;
+    border-radius: 2px;
+  }
+
+  .header-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+  }
+
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem;
+    color: #ffffff;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  .header h1 span {
+    color: var(--teal);
+  }
+
+  .header-tagline {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+    margin-bottom: 2rem;
+  }
+
+  .about-box {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-left: 3px solid var(--teal);
+    padding: 1.25rem 1.5rem;
+    border-radius: 2px;
+  }
+
+  .about-box p {
+    font-size: 13.5px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .progress-bar-wrap {
+    background: var(--navy);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--teal);
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  .progress-label {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 8px 2rem;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  .section-block {
+    margin-bottom: 3rem;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    width: 100%;
+  }
+
+  .details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .field-group label {
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-light);
+  }
+
+  .field-group input,
+  .field-group textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-dark);
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 10px 13px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .field-group input:focus,
+  .field-group textarea:focus {
+    border-color: var(--navy-mid);
+    box-shadow: 0 0 0 3px rgba(0,37,84,0.08);
+  }
+
+  .field-group textarea {
+    resize: vertical;
+    min-height: 130px;
+    line-height: 1.6;
+  }
+
+  .question-block {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.75rem;
+    margin-bottom: 1.25rem;
+    transition: border-color 0.2s;
+  }
+
+  .question-block:focus-within {
+    border-color: var(--navy-mid);
+  }
+
+  .q-number {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .q-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--navy);
+    line-height: 1.35;
+    margin-bottom: 0.6rem;
+  }
+
+  .q-hint {
+    font-size: 12.5px;
+    color: var(--text-light);
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 1.1rem;
+    font-style: italic;
+    border-left: 2px solid var(--light-grey);
+    padding-left: 10px;
+  }
+
+  .required-star {
+    color: #c0392b;
+    margin-left: 2px;
+  }
+
+  .error-msg {
+    display: none;
+    font-size: 12px;
+    color: #c0392b;
+    margin-top: 5px;
+  }
+
+  .field-error input {
+    border-color: #c0392b !important;
+  }
+
+  .submit-section {
+    background: var(--navy);
+    border-radius: 4px;
+    padding: 2rem;
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .submit-note {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    font-weight: 300;
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .submit-note strong {
+    color: rgba(255,255,255,0.9);
+    font-weight: 500;
+  }
+
+  .btn-submit {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: #ffffff;
+    background: var(--teal);
+    border: none;
+    border-radius: 3px;
+    padding: 12px 32px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.1s;
+    flex-shrink: 0;
+  }
+
+  .btn-submit:hover { background: #009a8f; }
+  .btn-submit:active { transform: scale(0.98); }
+  .btn-submit:disabled { background: var(--mid-grey); cursor: not-allowed; }
+
+  .submit-error {
+    display: none;
+    background: #fdf0f0;
+    border: 1px solid #f5c6c6;
+    border-radius: 3px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #c0392b;
+    margin-bottom: 1rem;
+  }
+
+  .success-screen {
+    display: none;
+    max-width: 760px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+    text-align: center;
+  }
+
+  .success-icon {
+    width: 60px; height: 60px;
+    background: var(--teal-light);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 26px;
+  }
+
+  .success-screen h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    color: #ffffff;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+  }
+
+  .success-screen p {
+    color: rgba(255,255,255,0.6);
+    font-size: 14.5px;
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .success-screen a { color: var(--teal); }
+
+  .footer {
+    max-width: 760px;
+    margin: 0 auto 2rem;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 300;
+  }
+
+  .footer a { color: var(--teal); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .details-grid { grid-template-columns: 1fr; }
+    .header h1 { font-size: 1.7rem; }
+    .submit-section { flex-direction: column; text-align: center; }
+    .btn-submit { width: 100%; }
+  }
+
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 0.5rem;
+  }
+
+  .checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-dark);
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: var(--light-grey);
+    transition: border-color 0.2s, background 0.2s;
+    user-select: none;
+  }
+
+  .checkbox-option:hover {
+    border-color: var(--navy-mid);
+    background: #eef1f7;
+  }
+
+  .checkbox-option input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    accent-color: var(--navy);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .checkbox-option input[type="checkbox"]:checked + span {
+    font-weight: 500;
+    color: var(--navy);
+  }
+
+  .checkbox-option:has(input:checked) {
+    border-color: var(--teal);
+    background: var(--teal-light);
+  }
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-meta">
+      <span class="alpha-badge">Alpha Alternatives</span>
+      <span class="header-sub">June 2026</span>
+    </div>
+    <h1>Art of the Possible <span>Platform Demos</span></h1>
+    <p class="header-tagline">Portfolio and Asset Management Platform Selection</p>
+    <div class="about-box">
+      <p>Following the platform demonstrations, we would like to capture your initial reactions and any requirements this has prompted. This takes no more than five minutes. Your responses will feed directly into the evaluation and will not be attributed to you by name in any reporting.</p>
+    </div>
+  </div>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="progress-label">
+    <span id="progressText">Your details</span>
+    <span id="progressPct">0% complete</span>
+  </div>
+</div>
+
+<div class="main" id="formWrap">
+<form id="questionnaireForm" novalidate>
+
+  <!-- YOUR DETAILS -->
+  <div class="section-block">
+    <div class="section-label">Your details</div>
+    <div class="field-group" id="fg-name" style="max-width:360px;">
+      <label for="fullName">Full name <span class="required-star">*</span></label>
+      <input type="text" id="fullName" name="fullName" placeholder="e.g. Jane Smith" autocomplete="name" required>
+      <span class="error-msg" id="err-name">Please enter your full name.</span>
+    </div>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div class="section-block">
+    <div class="section-label">Your feedback</div>
+
+    <div class="question-block">
+      <span class="q-number">Question 1</span>
+      <p class="q-title">Which platform(s) did you join the Art of the Possible demo(s) for?</p>
+      <p class="q-hint">Select all that apply. If you attended more than one, note your answers to questions 2 and 3 per platform where they differ.</p>
+      <div class="checkbox-group">
+        <label class="checkbox-option">
+          <input type="checkbox" name="q1" value="Cherre">
+          <span>Cherre</span>
+        </label>
+        <label class="checkbox-option">
+          <input type="checkbox" name="q1" value="5th Dimension">
+          <span>5th Dimension</span>
+        </label>
+        <label class="checkbox-option">
+          <input type="checkbox" name="q1" value="4see">
+          <span>4see</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <span class="q-number">Question 2</span>
+      <p class="q-title">What did you like about the platform(s)?</p>
+      <p class="q-hint">Focus on what stood out positively - specific features, workflows, visualisations, or anything that felt like a good fit for how you work. If you attended multiple demos, note which platform you are referring to.</p>
+      <div class="field-group">
+        <textarea name="q2" id="q2" placeholder="Type your answer here..." rows="6"></textarea>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <span class="q-number">Question 3</span>
+      <p class="q-title">Are there any additional requirements that watching this has prompted that you would like us to consider?</p>
+      <p class="q-hint">Sometimes seeing a platform in action surfaces needs you had not previously thought to mention. Any new requirements, concerns, or questions that have come up are useful to capture here.</p>
+      <div class="field-group">
+        <textarea name="q3" id="q3" placeholder="Type your answer here..." rows="6"></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="submit-error" id="submitError">There was a problem submitting your response. Please try again or contact <a href="mailto:hannah.holt@alphafmc.com">hannah.holt@alphafmc.com</a>.</div>
+
+  <div class="submit-section">
+    <div class="submit-note">
+      <strong>Thank you for taking the time to share your feedback.</strong><br>
+      Responses are confidential and will be used solely to inform the platform evaluation.
+    </div>
+    <button type="submit" class="btn-submit" id="submitBtn">Submit feedback</button>
+  </div>
+
+</form>
+</div>
+
+<div class="success-screen" id="successScreen">
+  <div class="success-icon">&#10003;</div>
+  <h2>Feedback submitted</h2>
+  <p>Thank you - your input has been received and will feed directly into the platform evaluation. If you would like to discuss anything further, please contact Hannah Holt at <a href="mailto:hannah.holt@alphafmc.com">hannah.holt@alphafmc.com</a>.</p>
+</div>
+
+<div class="footer">
+  <span>Platform Selection</span>
+  <span>Alpha Alternatives &copy; 2026</span>
+</div>
+
+<script>
+function updateProgress() {
+  let filled = 0;
+  const total = 4;
+  if (document.getElementById('fullName').value.trim()) filled++;
+  if (document.querySelectorAll('input[name="q1"]:checked').length > 0) filled++;
+  if (document.getElementById('q2').value.trim()) filled++;
+  if (document.getElementById('q3').value.trim()) filled++;
+  const pct = Math.round((filled / total) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '% complete';
+  document.getElementById('progressText').textContent =
+    filled === 0 ? 'Your details' : 'Your feedback';
+}
+
+document.querySelectorAll('input, textarea').forEach(el => {
+  el.addEventListener('input', updateProgress);
+  el.addEventListener('change', updateProgress);
+});
+
+document.getElementById('questionnaireForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  let valid = true;
+  const required = [
+    { id: 'fullName', fg: 'fg-name', err: 'err-name' }
+  ];
+
+  required.forEach(f => {
+    const el = document.getElementById(f.id);
+    const fg = document.getElementById(f.fg);
+    const err = document.getElementById(f.err);
+    if (!el.value.trim()) {
+      fg.classList.add('field-error');
+      err.style.display = 'block';
+      valid = false;
+    } else {
+      fg.classList.remove('field-error');
+      err.style.display = 'none';
+    }
+  });
+
+  if (!valid) {
+    document.getElementById('fullName').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  const name = document.getElementById('fullName').value.trim();
+  const q1checked = Array.from(document.querySelectorAll('input[name="q1"]:checked')).map(cb => cb.value);
+  const q1 = q1checked.length > 0 ? q1checked.join(', ') : '(none selected)';
+  const q2 = document.getElementById('q2').value.trim();
+  const q3 = document.getElementById('q3').value.trim();
+
+  const emailBody = `ART OF THE POSSIBLE - DEMO FEEDBACK
+Submitted: ${new Date().toLocaleString('en-GB')}
+
+--- RESPONDENT ---
+Name: ${name}
+
+--- FEEDBACK ---
+Q1 - Platform(s) attended:
+${q1}
+
+Q2 - What they liked:
+${q2 || '(no response)'}
+
+Q3 - Additional requirements prompted:
+${q3 || '(no response)'}`;
+
+  const RECIPIENT = 'hannah.holt@alphafmc.com';
+
+  try {
+    const formData = new FormData();
+    formData.append('_subject', `[AMP Demo Feedback] Response from ${name}`);
+    formData.append('_template', 'box');
+    formData.append('_captcha', 'false');
+    formData.append('message', emailBody);
+
+    const response = await fetch(`https://formsubmit.co/${RECIPIENT}`, {
+      method: 'POST',
+      body: formData
+    });
+
+    if (response.ok) {
+      document.getElementById('formWrap').style.display = 'none';
+      document.getElementById('successScreen').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      throw new Error('Submission failed: ' + response.status);
+    }
+  } catch (err) {
+    console.error('Submission error:', err);
+    btn.disabled = false;
+    btn.textContent = 'Submit feedback';
+    document.getElementById('submitError').style.display = 'block';
+    document.getElementById('submitError').scrollIntoView({ behavior: 'smooth' });
+  }
+});
+</script>
+</body>
+</html>
